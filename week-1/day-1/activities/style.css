@@ -1,0 +1,31 @@
+body{
+font-family: sans-serif;
+color:rgb(0, 0, 0);
+background-color: lightgray;
+line-height: 150%;
+
+}
+
+h1{
+    color:red;
+    font-size: 36px;
+    text-decoration: underline;
+}
+
+.subheading{
+    color: coral;
+    font-family: serif;
+    font-weight: 1000;
+   
+}
+
+p{
+    color:blue;
+    font-size:20px;
+}
+img{
+    width: 30%;
+    height: 30%;
+    outline: auto;
+   outline-style: solid;
+}
