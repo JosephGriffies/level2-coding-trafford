@@ -24,11 +24,13 @@
    
   .box1 {
     background-color: dodgerblue;
-    flex: 2;
+    flex: 3;
+    a:hover {
+      background-color: hotpink;
+    }
 }
   .box2 {
     background-color: goldenrod;
-    flex: 2 200px;
 }
   .box3 {background-color: green;}
   .box4 {background-color: pink;}
@@ -38,3 +40,4 @@
   .box8 {background-color: crimson;}
   .box9 {background-color: slateblue;}
   .box10 {background-color: fuchsia;}
+
