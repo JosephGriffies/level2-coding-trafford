@@ -9,7 +9,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
   }
    
   .box {
@@ -24,11 +24,9 @@
    
   .box1 {
     background-color: dodgerblue;
-    flex: 3;
-    a:hover {
-      background-color: hotpink;
+    flex: 2;
     }
-}
+
   .box2 {
     background-color: goldenrod;
 }
