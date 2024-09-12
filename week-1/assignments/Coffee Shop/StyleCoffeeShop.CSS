@@ -20,7 +20,7 @@
     height: 40px;
     outline: auto;
     outline-color: black;
-    float: inline-start;
+  
   } 
 
     .box1 {
@@ -35,3 +35,6 @@
             background-color: dodgerblue;
             flex: 1;
             }
+.Drinks{
+ width: 1000;
+}
