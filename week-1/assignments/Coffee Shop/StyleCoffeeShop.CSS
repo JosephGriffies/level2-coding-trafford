@@ -7,8 +7,16 @@
     flex-wrap: wrap;
     text-align: center;
     min-height: 0;
+    margin-bottom: 20px;
 
   }
+
+body {
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  overflow-x: hidden;
+}
 
 .box {
     display: flex;
@@ -37,8 +45,8 @@
 
 
 img{
-  width: 30%;
-  height: 30%;
+  width: 100%;
+  height: 100%;
   outline: auto;
  outline-style: solid;
  display: block;
@@ -46,28 +54,40 @@ img{
  margin-right: auto;
  width: 50%;
 }
+
 p{
   font-size: 22px;
+  max-width: 60%;
   text-align: center;
 }
+
+
 h1{
   text-align: center;
   font-size: 30px;
 }
 
+.text {
+  display: flex;
+  justify-content: center;
+}
+
 .container2 {
-  border: 1px solid rgb(0, 0, 0);
-  width: 100vw;
   display: flex;
   flex-direction: row;
+  border: 1px solid rgb(0, 0, 0);
+  width: 100vw;
   align-items: center;
   flex-wrap: wrap;
   text-align: center;
+  position: relative;
+  margin-top: 40px;
 
 }
 
 .box4 {
   display: flex;
+  flex-direction: row;
   color: rgb(255, 255, 255);
   font-size: 20px;
   padding: 10px;
@@ -93,3 +113,39 @@ h1{
     background-color: dodgerblue;
           flex: 1;
   }
+
+  .Drinks {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: center;
+   justify-content: center;
+  }
+
+.Drink {
+  width: 30%;
+  margin-top: 30px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+}
+
+.Drink p {
+  width: 100%;
+  margin-left: 0px;
+  margin-bottom: 0px;
+  margin-top: 5px;
+
+}
+
+  .Pastry1 {
+
+    object-fit: cover;
+
+  }
+
