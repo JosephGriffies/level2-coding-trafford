@@ -7,17 +7,16 @@
     flex-wrap: wrap;
     text-align: center;
     min-height: 0;
-    min-width: none;
-    max-width: 160;
+
   }
 
 .box {
     display: flex;
     color: white;
-    font-size: 32px;
+    font-size: 20px;
     padding: 10px;
     width: 60px;
-    height: 40px;
+    height: 25px;
     outline: auto;
     outline-color: black;
   
@@ -35,6 +34,62 @@
             background-color: dodgerblue;
             flex: 1;
             }
-.Drinks{
- width: 1000;
+
+
+img{
+  width: 30%;
+  height: 30%;
+  outline: auto;
+ outline-style: solid;
+ display: block;
+ margin-left: auto;
+ margin-right: auto;
+ width: 50%;
 }
+p{
+  font-size: 22px;
+  text-align: center;
+}
+h1{
+  text-align: center;
+  font-size: 30px;
+}
+
+.container2 {
+  border: 1px solid rgb(0, 0, 0);
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  text-align: center;
+
+}
+
+.box4 {
+  display: flex;
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+  padding: 10px;
+  width: 100px;
+  height: 25px;
+  outline: auto;
+  outline-color: rgb(0, 0, 0);
+
+} 
+.box5 {
+  background-color: dodgerblue;
+  flex: 1;
+  }
+  .box6 {
+      background-color: dodgerblue;
+      flex: 1;
+      }
+  .box7 {
+          background-color: dodgerblue;
+          flex: 1;
+          }
+  .box8 {
+    background-color: dodgerblue;
+          flex: 1;
+  }
