@@ -1,6 +1,5 @@
 import random
-player = 30 #Players hp
-turn_count = 1 #A way to track the turn count used for boss patterns and super attack
+player = 30 #Players hp 
 charge = 0 #The value the dragon uses to deal bonus damage every 3 turns
 comeback = 0 #The value used to track when the superattack is ready and how much damage it will deal
 cooldown = 0
@@ -16,7 +15,7 @@ maxhp = 30
 def fight(enemy, modifier, health,xp): 
     print(f"Oh no a {enemy} has appeared")
     global player
-    global turn_count
+    turn_count = 0 #A way to track the turn count used for super attack
     global comeback
     global cooldown
     global atkbuff
@@ -82,7 +81,7 @@ def fight(enemy, modifier, health,xp):
                 print (damaged)
                 critd = (random.randint(1,100))
                 if critd <= 5:
-                    damaged *= critd
+                    damaged *= 2
                 damaged -= defend
                 damaged -= defbuff
                 player -= damaged
@@ -96,30 +95,12 @@ def fight(enemy, modifier, health,xp):
             comeback = 10
     if player >=1 and health <= 0: #Checks if you won the battle
             print(f"The {enemy} is defeated and you gained {xp}")
-            if xp == 10:
+            if xp == 10 or xp == 30 or xp == 60 or xp == 100:
                 level += 1
                 atkbuff += 1
                 healbuff += 1
                 defbuff += 1
                 maxhp += 10
-            elif xp == 30:
-                level = 3
-                atkbuff = 2
-                healbuff = 2
-                defbuff = 2
-                maxhp = 50
-            elif xp == 60:
-                level = 4
-                atkbuff = 3
-                healbuff = 3
-                defbuff = 3
-                maxhp = 60
-            elif xp == 100:
-                level = 5
-                atkbuff = 4
-                healbuff = 4
-                defbuff = 4
-                maxhp = 70
             print("LEVEL UP! Your abilities are now stronger and your max hp is increased by 10")
     elif player <= 0 and health >= 1: #Checks if you lost the battle
         print(f"The {enemy} knocked you out. Game over")
