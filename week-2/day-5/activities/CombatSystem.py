@@ -1,6 +1,5 @@
 import random
 player = 30 #Players hp 
-charge = 0 #The value the dragon uses to deal bonus damage every 3 turns
 comeback = 0 #The value used to track when the superattack is ready and how much damage it will deal
 cooldown = 0
 critp = 100 
@@ -11,11 +10,13 @@ atkbuff = 0
 defbuff = 0
 healbuff = 0
 maxhp = 30
+totalxp = 0
+big_attack = 0
 
-def fight(enemy, modifier, health,xp): 
+def fight(enemy, modifier, health,xp,charge,threat,tell): 
     print(f"Oh no a {enemy} has appeared")
     global player
-    turn_count = 0 #A way to track the turn count used for super attack
+    turn_count = 1 #A way to track the turn count used for super attack
     global comeback
     global cooldown
     global atkbuff
@@ -24,6 +25,9 @@ def fight(enemy, modifier, health,xp):
     global level
     global maxhp
     global defbuff
+    global totalxp
+    global big_attack
+    defend = 0
     while player >= 1 and health >= 1: #loops everything below until the code is closed
         if player >= 1 and health >= 1: #checks to see if the player and dragon are alive
             print(f"It is turn {turn_count}")
@@ -61,16 +65,19 @@ def fight(enemy, modifier, health,xp):
                 valid = 1
             elif move == 4 and comeback == 10 or cooldown == 5:
                 turn_count += 1
+                comeback += atkbuff
                 critp = (random.randint(1,100))
                 if critp <= 5: #The comeback attack has a lower crit chance
                     comeback *= 2
                 health -= comeback
-                comeback = 0 #Means comeback can only be used once
-                cooldown = 0
                 if critp >=6:
-                    print(f"You strike with all your power. You dealt 10 damage to the enemy leaving it with {health} hp")
+                    print(f"You strike with all your power. You dealt {comeback}) damage to the enemy leaving it with {health} hp")
+                    comeback = 0 #Means comeback can only be used once
+                    cooldown = 0
                 else: 
-                    print(f"WOAH! A CRITICAL HIT. You strike with all your power. You dealt 20 damage to the enemy leaving it with {health} hp")
+                    print(f"WOAH! A CRITICAL HIT. You strike with all your power. You dealt {comeback} damage to the enemy leaving it with {health} hp")
+                    comeback = 0 #Means comeback can only be used once
+                    cooldown = 0
                 valid = 1
             else:
                 print ("Invalid move")
@@ -78,12 +85,16 @@ def fight(enemy, modifier, health,xp):
             if valid == 1 and health >= 1:
                 damaged = (random.randint(1,6))
                 damaged += modifier
-                print (damaged)
+                if big_attack == 0:
+                    damaged += threat
                 critd = (random.randint(1,100))
                 if critd <= 5:
                     damaged *= 2
                 damaged -= defend
+                defend = 0
                 damaged -= defbuff
+                if damaged <= 0:
+                    damaged = 1
                 player -= damaged
                 if critd >= 6:
                     print(f"The {enemy} dealt {damaged} damage to you leaving you with {player} hp")
@@ -93,19 +104,25 @@ def fight(enemy, modifier, health,xp):
             cooldown += 1
         if turn_count == 5 or cooldown == 5:
             comeback = 10
+        big_attack = turn_count % charge
+        if big_attack == 0:
+            print(tell)
     if player >=1 and health <= 0: #Checks if you won the battle
             print(f"The {enemy} is defeated and you gained {xp}")
-            if xp == 10 or xp == 30 or xp == 60 or xp == 100:
+            totalxp += xp
+            if xp >= 20 and level !=7:
                 level += 1
                 atkbuff += 1
                 healbuff += 1
                 defbuff += 1
                 maxhp += 10
+                totalxp -= 20
             print("LEVEL UP! Your abilities are now stronger and your max hp is increased by 10")
     elif player <= 0 and health >= 1: #Checks if you lost the battle
         print(f"The {enemy} knocked you out. Game over")
+        quit()
 
-print("Wow I sure hope I don't encounter a dragon")
-fight("Dragon", 2, 30, 10)
-print("Well that was scary I sure hope there aren't any monsters around")
-fight("Monster", 2, 40, 20)
+print("Wow I sure hope I don't encounter an enemy")
+fight("Rat", 2, 10, 30,20,0,"You're bad at this.")
+print("Well that was scary I sure hope there aren't any Dragons around")
+fight("Dragon", 2, 40, 20,6,3,"Don't defend this")
