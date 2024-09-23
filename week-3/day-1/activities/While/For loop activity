@@ -1,0 +1,12 @@
+favourite_film = ["Inside out", "a silent voice", "Hairspray", "ghost busters"]
+x = 0
+for film in favourite_film:
+    print(film)
+    if film != "ghost busters":
+        x += 1
+    
+if x == 4:
+    print("boo, we want ghost busters.")
+else:
+    print("Yay, ghost busters.")
+
