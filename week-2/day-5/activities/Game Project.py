@@ -18,6 +18,17 @@ well_trigger = 0
 well_check = 0
 key = 0
 secret = 1
+start = 0
+
+print("THE SIN OF GREED")
+time.sleep(2)
+while start == 0:
+    difficulty = input("Select your difficulty (1) Normal (2) Hard")
+    difficulty = int(difficulty)
+    if difficulty == 1 or difficulty == 2:
+        start += 1
+    else:
+        print("Invalid input try again")
 
 def fight(enemy, modifier, health,xp,charge,threat,tell): 
     print(f"Oh no a {enemy} has appeared")
@@ -54,10 +65,10 @@ def fight(enemy, modifier, health,xp,charge,threat,tell):
                 health -= damagep #What actually deals damage
                 if critp > critrate:
                     print(f"You dealt {damagep} damage to the enemy leaving it with {health} hp")
-                    time.sleep(1)
+                    time.sleep(2)
                 else: 
                     print(f"WOAH! A CRITICAL HIT. You dealt {damagep} damage to the enemy leaving it with {health} hp")
-                    time.sleep(1)
+                    time.sleep(2)
                 valid = 1
             elif move == 2:
                 turn_count += 1
@@ -67,13 +78,13 @@ def fight(enemy, modifier, health,xp,charge,threat,tell):
                 if player >= maxhp:
                     player = maxhp #fail safe to prevent healing over your max hp
                 print (f"You healed yourself for {heal} and now you have {player}hp")
-                time.sleep(1)
+                time.sleep(3)
                 valid = 1
             elif move == 3:
                 turn_count += 1
                 defend = (random.randint(1,6)) #decides how much to reduce damage by
                 print(f"You raised your guard, the next attack will deal up to {defend} less damage")
-                time.sleep(1)
+                time.sleep(3)
                 valid = 1
             elif move == 4 and comeback == 10 or cooldown == 5:
                 turn_count += 1
@@ -84,12 +95,12 @@ def fight(enemy, modifier, health,xp,charge,threat,tell):
                 health -= comeback
                 if critp > critrate:
                     print(f"You strike with all your power. You dealt {comeback} damage to the enemy leaving it with {health} hp")
-                    time.sleep(1)
+                    time.sleep(3)
                     comeback = 0 #Means comeback can only be used once
                     cooldown = 0
                 else: 
-                    print(f"WOAH! A CRITICAL HIT. You strike with all your power. You dealt {comeback} damage to the enemy leaving it with {health} hp")
-                    time.sleep(1)
+                    print(f"WOAH! A CRITICAL HIT! You strike with all your power. You dealt {comeback} damage to the enemy leaving it with {health} hp")
+                    time.sleep(3)
                     comeback = 0 #Means comeback can only be used once
                     cooldown = 0
                 valid = 1
@@ -112,10 +123,10 @@ def fight(enemy, modifier, health,xp,charge,threat,tell):
                 player -= damaged
                 if critd >= 6:
                     print(f"The {enemy} dealt {damaged} damage to you leaving you with {player} hp")
-                    time.sleep(1)
+                    time.sleep(2)
                 else:
                     print(f"WATCH OUT! The {enemy} landed a crit and dealt {damaged} damage leaving you with {player} hp")
-                    time.sleep(1)
+                    time.sleep(3)
         if turn_count >= 5 and comeback <= 4:
             cooldown += 1
         if turn_count == 5 or cooldown == 5:
@@ -123,9 +134,10 @@ def fight(enemy, modifier, health,xp,charge,threat,tell):
         big_attack = turn_count % charge
         if big_attack == 0:
             print(tell)
+            time.sleep(2)
     if player >=1 and health <= 0: #Checks if you won the battle
             print(f"The {enemy} is defeated and you gained {xp} xp")
-            time.sleep(1)
+            time.sleep(2)
             comeback = 0
             totalxp += xp
             if totalxp >= 20 and level !=7:
@@ -138,46 +150,53 @@ def fight(enemy, modifier, health,xp,charge,threat,tell):
                 critrate += 2
                 player = maxhp
                 print("LEVEL UP! Your abilities are now stronger and your max hp is increased by 10")
-            time.sleep(1)
+            time.sleep(3)
     elif player <= 0 and health >= 1: #Checks if you lost the battle
         print(f"The {enemy} knocked you out. Game over")
         time.sleep(2)
         quit()
         
-print("You've found in a gloomy, damp cave. You can hear heavy footsteps behind you and it appears that you're being chased.")
-time.sleep(2)
+print("You've found yourself in a gloomy, damp cave. You can hear heavy footsteps behind you and it appears that you're being chased.")
+time.sleep(3)
 cave = 1
 while cave == 1:
     direction = input("The path infront of you is split 2 ways.(1)Left (2)Right")
     direction = int(direction)
     if direction == 1:
-        print("The path you have entered seems to be some sort of lair")
+        print("The path you have entered is dimly lit, you can hear water dripping down but you're not sure where it's coming from. ")
         cave = 0
-        time.sleep(2)
+        time.sleep(4)
     elif direction == 2:
-        print("You have entered a dark, gloomy cave covered in spider webs")
+        print("You have entered a dark, gloomy cave covered in spider webs. It smells damp and moldy.")
         cave = 0
-        time.sleep(2)
+        time.sleep(4)
     else:
         print("Invalid input")
 print("You see the exit in the distance but before you can make it, an angry knight appears to block your path.")
-time.sleep(2)
+time.sleep(4)
 print("Stop! The king wants you dead!")
-fight("Knight", -1, 15, 20, 50, 0, "You're bad at this.")
+time.sleep(3)
+if difficulty == 1:
+    fight("Knight", -1, 15, 20, 50, 0, "You're bad at this.")
+elif difficulty == 2:
+    fight("Knight", 0, 30, 20, 5, 2, "I won't go easy on you!")
 print("You have slain the kings knight, you can now exit the cave.")
 time.sleep(3)
-print("A large town stands before you. At the centre of the town you can see a large castle that almost seems as if it is looking down on the surroundings. The people seem poor and like they are struggling to survive. It is likely that this is all the kings responsibility. You should figure out how to get in to the castle so that way the king can pay for his negligence.")
+print("A large town stands before you. At the centre of the town you can see a large castle that almost seems as if it is looking down on the surroundings.")
 time.sleep(5)
-
-
-  
+print("The people seem poor and like they are struggling to survive. It is likely that this is all the kings responsibility.")
+time.sleep(4)
+print("You should figure out how to get in to the castle so that way the king can pay for his negligence.")
+time.sleep(3)
 
 def garden ():
     global atkbuff
     global defbuff
     global healbuff
-    print("The civilian in the town mentioned that a garden was close by, you see it in the distance and decide to explore it.")
+    print("In the center of the garden there was a large fountain surrounded by civillians.")
     time.sleep(4)
+    print("The garden was lively, blooming with flowers, butterflies and trees.")
+    time.sleep(3)
     flower = 1
     flower_garden = 1
     while flower_garden == 1:
@@ -188,13 +207,14 @@ def garden ():
         garden_choice = int(garden_choice)
         if garden_choice == 1:
             print("You decide to return to town.")
-            time.sleep(3)
+            time.sleep(2)
             flower_garden = 0
             town()
         elif garden_choice == 2:
             print("You notice one of the civilians inspecting the flower field in the garden, they seem to be looking for something.")
             time.sleep(3)
             print("Greetings stranger, are you lost?")
+            time.sleep(1)
             talk = 1
             while talk == 1:
                 garden_talk = input("(1) What are you looking for? (2) Do you know anything about the well? (3) What are your thoughts on the king? (4) I'll be seeing you.")
@@ -204,22 +224,21 @@ def garden ():
                     time.sleep (3)
                     print("Is there anything else?")
                 elif garden_talk == 2:
-                    print("I heard that theres so many rats down there. They tend to go to the left because the water is dirty.")
-                    time.sleep (3)
+                    print("I heard that theres so many rats down there. They tend to avoid going to the left because the water is dirty.")
+                    time.sleep (5)
                     print("Is there anything else.")
                 elif garden_talk == 3:
                     print("Oh the king... He's been sending his knights to the town to steal money from the poor. Not many people like him around here.")
-                    time.sleep (3)
+                    time.sleep (5)
                     print("Is there anything else.")
                 elif garden_talk == 4:
                     print("Alright thanks, see you around.")
-                    time.sleep (3)
+                    time.sleep (2)
                     talk = 0
                 else:
                     print("I didn't catch that")
                     time.sleep(1)
-                    
-                    
+                              
         elif garden_choice == 3 and flower == 1:
             print("You slowly walk up to the flower field and notice 3 shining flowers in the middle of the field.")
             time.sleep(3)
@@ -229,14 +248,17 @@ def garden ():
                 print("You feel stronger")
                 atkbuff += 1
                 flower = 0
+                time.sleep(2)
             elif buff == 2:
                 print("You feel as though you've learnt a lot about healing")
                 healbuff += 1
                 flower = 0
+                time.sleep(2)
             elif buff == 3:
                 print("You feel strong and resilient")
                 defbuff += 1
                 flower = 0
+                time.sleep(2)
             else:
                 print("You somehow missed all the flowers and picked up a strand of grass. It is useless. Maybe next time you'll pick up the correct thing")
                 time.sleep(3)
@@ -266,19 +288,22 @@ def town ():
             print("A strange man stands next to the well. He seems to be inspecting it.")
             time.sleep(2)
             print("Oh hello there stranger, can I help you with anything?")
+            time.sleep(2)
             talk = 1
             while talk == 1:
                 talk_town = input("(1) What's thee king like? (2)You seem to be inspecting that well, why? (3)Any recommendations, (4) I'll be seeing you")
                 talk_town = int(talk_town)
                 if talk_town == 1:
-                    print("Oh well aren't you brave asking that out in public. Well if you ask me hes just not right. Ever since his corronation things haven't been the same. The people are poor and yet his castle just seems to get bigger and bigger.")
-                    time.sleep(7)
+                    print("Oh well aren't you brave asking that out in public. Well if you ask me hes just not right. Ever since his corronation things haven't been the same.") 
+                    time.sleep(6)
+                    print("The people are poor and yet his castle just seems to get bigger and bigger.")
+                    time.sleep(3)
                     print("Although between you and me I heard something strange about his castle gates and the number 3. Who knows what it stands for? Maybe some treasure? Nah thats probably just me being hopeful")
                     time.sleep(6)
                     print("Anything else I can do for ya")
                 elif talk_town == 2:
                     print("Oh uh this well...  well between you and me I heard the knight dropped a key to the castle. I can't see it down there and the wells infested with rats so you'd have to be real brave to go in there")
-                    time.sleep(7)
+                    time.sleep(8)
                     well_trigger = 1
                     print("Anything else I can do for ya?")
                 elif talk_town == 3:
@@ -296,7 +321,7 @@ def town ():
             print("An inn stands before you its welcoming aura practically drags you inside")
             time.sleep(3)
             print("The atmosphere here is lively yet tiring, you decide to book a room for the night and go to sleep.")
-            time.sleep(3)
+            time.sleep(4)
             print("When you wake up in the morning you feel energised and ready to continue your mission")
             player = maxhp
             time.sleep(3)
@@ -309,20 +334,26 @@ def town ():
             well()
 
 def well():
-    print("You reach the bottom of the ladder and find before you 3 branching paths.")
+    print("You reach the bottom of the ladder and find before you are 3 branching paths.")
+    time.sleep(3)
     x = 1
     while x <= 5:
         global well_check
         global key
         global well_trigger
+        global difficulty
         print("A branching path appears before you.")
+        time.sleep(2)
         well_choice = input("Which path would you like to take (1) Left (2) centre (3) right")
         well_choice = int(well_choice)
         ratwell = (random.randint(1,100))
         if  ratwell <= 20 and well_choice == 1:
             print("You take the left path and a rat approaches you. It is time to fight.")
             time.sleep(3)
-            fight("Rat", 1, 25, 10, 8, 2, "The rat squeaks aggresively")
+            if difficulty == 1:
+                fight("Rat", 1, 25, 10, 8, 2, "The rat squeaks aggresively")
+            elif difficulty == 2: 
+                fight("Rat", 2, 40, 10, 6, 3, "The rat squeaks aggresively")
             x += 1
         elif ratwell > 20 and well_choice == 1:
             print("You take the left path, it is clear.")
@@ -331,7 +362,10 @@ def well():
         elif  ratwell >= 60 and well_choice == 2:
             print("You take the centre path and a rat approaches you. It is time to fight.")
             time.sleep(3)
-            fight("Rat", 1, 25, 10, 8, 2, "The rat squeaks aggresively")
+            if difficulty == 1:
+                fight("Rat", 1, 25, 10, 8, 2, "The rat squeaks aggresively")
+            elif difficulty == 2: 
+                fight("Rat", 2, 40, 10, 6, 3, "The rat squeaks aggresively")
             x += 1
         elif ratwell < 60 and well_choice == 2:
             print("You take the centre path, it is clear.")
@@ -340,7 +374,10 @@ def well():
         elif  ratwell <= 60 and ratwell >= 20 and well_choice == 3:
             print("You take the right path and a rat approaches you. It is time to fight.")
             time.sleep(3)
-            fight("Rat", 1, 25, 10, 8, 2, "The rat squeaks aggresively")
+            if difficulty == 1:
+                fight("Rat", 1, 25, 10, 8, 2, "The rat squeaks aggresively")
+            elif difficulty == 2: 
+                fight("Rat", 2, 40, 10, 6, 3, "The rat squeaks aggresively")
             x += 1
         elif ratwell > 60 and ratwell < 20 and well_choice == 3:
             print("You take the right path, it is clear.")
@@ -369,6 +406,7 @@ def castle_gates():
     global defbuff
     global healbuff
     global secret
+    global difficulty
     gate = 1
     while gate == 1:
         if key != 1:
@@ -381,28 +419,39 @@ def castle_gates():
             gate_choice = int(gate_choice)
         if gate_choice == 1:
             print("You enter the castle gates to find an angry knight rushing towards you.")#haha comment
-            time.sleep(2)
-            print("You have some guts coming here!")
-            time.sleep(1)
-            fight("Knight", 2, 50, 10, 6, 2,"The knight raises his shield")
-            print("The Knight has been defeated.")
-            time.sleep(1)
-            print("Before you can catch your breath another knight angrily rushes towards you.")
             time.sleep(3)
+            print("You have some guts coming here!")
+            time.sleep(2)
+            if difficulty == 1:
+                fight("Knight", 2, 50, 20, 6, 2,"The knight raises his shield")
+            elif difficulty == 2:
+                fight("Knight", 3, 70, 20, 7, 2,"The knight raises his shield")
+            print("The Knight has been defeated.")
+            time.sleep(2)
+            print("Before you can catch your breath another knight angrily rushes towards you.")
+            time.sleep(4)
             print("I WILL AVENGE MY COMRADE!")
-            time.sleep(1)
-            fight("Knight", 2, 50, 10, 6, 2,"The knight raises his shield")
+            time.sleep(2)
+            if difficulty == 1:
+                fight("Knight", 2, 50, 20, 6, 2,"The knight raises his shield")
+            elif difficulty == 2:
+                fight("Knight", 3, 70, 20, 5, 2,"The knight raises his shield")
             print("After two tough fights, the captain slowly walks towards you in anger.")
             time.sleep(3)
             print("Do you think a weak peasant like you can defeat me?")
             time.sleep(2)
-            fight("Captain", 6, 70, 20, 5, 3,"The captain taunts you")
+            if difficulty == 1:
+                fight("Captain", 6, 70, 20, 5, 3,"The captain taunts you")
+            elif difficulty == 2:
+                fight("Captain", 7, 90, 20, 4, 4,"The captain taunts you")
             print("That seems to be the end of the knights, it is time to head to the throne room and make the king pay.")
-            time.sleep(4)
+            time.sleep(5)
             gate = 0
             throne_room()
         elif gate_choice == 2:
                 gate = 0
+                print("You decide to return to the town")
+                time.sleep(2)
                 town()
         elif gate_choice == 3 and secret == 1:
             print("You come across a variety of treasures, these should be helpful. You gain +1 to all your stats")
@@ -417,49 +466,58 @@ def castle_gates():
 def throne_room():
     final = 1
     print("You finally enter the throme room, it's massive and nothing like you've seen before.")
-    time.sleep(3)
+    time.sleep(4)
     print("At the top of the throne sits the greedy king. He starts shouting at you.")
-    time.sleep(3)
+    time.sleep(4)
     print("YOU FOOL! You think you can kill me? IM THE KING!")
-    time.sleep(3)
+    time.sleep(4)
     print("... Although you seem valuable to me, why dont we strike some sort of deal?")
-    time.sleep(3)
+    time.sleep(4)
     print("JOIN ME, and I'll give you all the riches in the world. You'll never struggle again!")
-    time.sleep(3)
+    time.sleep(4)
     while final == 1:
         throne_choice = input("(1) Reject the kings offer. (2) Accept the kings offer.")
         throne_choice = int(throne_choice)
         if throne_choice == 1:
-            print("YOU FOOL. YOU DARE DISOBEY ME. I SHALL CUT YOU DOWN WHERE YOU STAND")
+            print("YOU FOOL! YOU DARE DISOBEY ME. I SHALL CUT YOU DOWN WHERE YOU STAND")
             final = 0
             time.sleep(3)
-            fight("King", 8, 90, 20, 4, 4, "The king laughs maniacally")
+            if difficulty == 1:
+                fight("King", 8, 90, 20, 4, 4, "The king laughs maniacally")
+            elif difficulty == 2:
+                fight("King", 9, 120, 20, 4, 4, "The king laughs maniacally")
             print("If you think this is the end of me you are mistaken. BLOOD HOUND, COME TO ME!!!")
-            time.sleep(4)
-            print("The wall behind the castle explodes and in the dust you see a figure of a dragon appear.")
-            time.sleep(4)
-            print("You shall not survive the combined wrath of me and my dragon")
-            time.sleep(3)
-            fight("King and his Dragon", 9, 110, 999, 3, 2, "A fiery aura comes from the dragons mouth")
-            print("No please don't ikill me I'll make you rich! Please this doesn't have to be the end.")
-            time.sleep(4)
-            print("With a single slash of your blade the king is silenced. Permanently")
-            time.sleep(3)
-            print("It i now up to you to take the crown and help the people. Will you succeed as their ruler, or succumb to greed. It is now your path to walk")
             time.sleep(5)
+            print("The wall behind the castle explodes and in the dust you see a figure of a dragon appear.")
+            time.sleep(5)
+            print("You shall not survive the combined wrath of me and my dragon")
+            time.sleep(4)
+            if difficulty == 1:
+                fight("King and his Dragon", 9, 110, 999, 3, 2, "A fiery aura comes from the dragons mouth")
+            elif difficulty ==2:
+                fight("King and his Dragon", 10, 150, 999, 3, 2, "A fiery aura comes from the dragons mouth")
+            print("No please don't kill me I'll make you rich! Please this doesn't have to be the end.")
+            time.sleep(5)
+            print("With a single slash of your blade the king is silenced. Permanently")
+            time.sleep(4)
+            print("It is now up to you to take the crown and help the people. Will you succeed as their ruler, or succumb to greed. It is now your path to walk")
+            time.sleep(6)
             print("Thank you for playing!")
+            time.sleep(1)
             quit()
         elif throne_choice == 2:
             print("THAT'S RIGHT! YOU WOULDN'T DARE DISOBEY THE KING!")
             time.sleep(3)     
             print("Just mere days after you accepted the kings offer the world got much worse. Whilst the king was filling your pockets with gold and silver, the poor were struggling to survive.") 
-            time.sleep(5)   
+            time.sleep(7)   
             print("The king kept sending his knights out to slay the poor and take there food and supplies.")
-            time.sleep(3)
+            time.sleep(4)
             print("Thank you for playing!")
+            time.sleep(1)
             final = 0
-    
+            quit()
         else:
             print("SPEAK UP WHEN YOU ARE TALKING TO ME!")
+            time.sleep(1)
 
 town()
