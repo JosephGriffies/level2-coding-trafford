@@ -15,6 +15,9 @@ totalxp = 0
 big_attack = 0
 critrate = 10
 well_trigger = 0
+well_check = 0
+key = 0
+secret = 1
 
 def fight(enemy, modifier, health,xp,charge,threat,tell): 
     print(f"Oh no a {enemy} has appeared")
@@ -80,7 +83,7 @@ def fight(enemy, modifier, health,xp,charge,threat,tell):
                     comeback *= 2
                 health -= comeback
                 if critp > critrate:
-                    print(f"You strike with all your power. You dealt {comeback}) damage to the enemy leaving it with {health} hp")
+                    print(f"You strike with all your power. You dealt {comeback} damage to the enemy leaving it with {health} hp")
                     time.sleep(1)
                     comeback = 0 #Means comeback can only be used once
                     cooldown = 0
@@ -125,7 +128,7 @@ def fight(enemy, modifier, health,xp,charge,threat,tell):
             time.sleep(1)
             comeback = 0
             totalxp += xp
-            if xp >= 20 and level !=7:
+            if totalxp >= 20 and level !=7:
                 level += 1
                 atkbuff += 1
                 healbuff += 1
@@ -134,7 +137,7 @@ def fight(enemy, modifier, health,xp,charge,threat,tell):
                 totalxp -= 20
                 critrate += 2
                 player = maxhp
-            print("LEVEL UP! Your abilities are now stronger and your max hp is increased by 10")
+                print("LEVEL UP! Your abilities are now stronger and your max hp is increased by 10")
             time.sleep(1)
     elif player <= 0 and health >= 1: #Checks if you lost the battle
         print(f"The {enemy} knocked you out. Game over")
@@ -160,7 +163,7 @@ while cave == 1:
 print("You see the exit in the distance but before you can make it, an angry knight appears to block your path.")
 time.sleep(2)
 print("Stop! The king wants you dead!")
-fight("Knight", -1, 1, 20, 50, 0, "You're bad at this.")
+fight("Knight", -1, 15, 20, 50, 0, "You're bad at this.")
 print("You have slain the kings knight, you can now exit the cave.")
 time.sleep(3)
 print("A large town stands before you. At the centre of the town you can see a large castle that almost seems as if it is looking down on the surroundings. The people seem poor and like they are struggling to survive. It is likely that this is all the kings responsibility. You should figure out how to get in to the castle so that way the king can pay for his negligence.")
@@ -246,8 +249,9 @@ def garden ():
 def town ():
     intown = 1
     global well_trigger
+    global well_check
     while intown == 1:
-        if well_trigger != 1:
+        if well_trigger != 1 or well_check == 1:
             town_choice = input("What would you like to do?(1) Go to the garden, (2) Go to the castle gates, (3)Talk to the civilians, (4)Find an inn to rest at")
         else:
             town_choice = input("What would you like to do?(1) Go to the garden, (2) Go to the castle gates, (3)Talk to the civilians, (4)Find an inn to rest at, (5) Explore the suspicious well.")
@@ -286,7 +290,7 @@ def town ():
                     time.sleep(2)
                     talk = 0
                 else:
-                    print("Sorry i didn't catch that?")
+                    print("Sorry I didn't catch that?")
                     time.sleep(2)
         elif town_choice == 4:
             print("An inn stands before you its welcoming aura practically drags you inside")
@@ -304,11 +308,158 @@ def town ():
             time.sleep(4)
             well()
 
-def castle_gates():
-    print("Theres nothing to do here")
+def well():
+    print("You reach the bottom of the ladder and find before you 3 branching paths.")
+    x = 1
+    while x <= 5:
+        global well_check
+        global key
+        global well_trigger
+        print("A branching path appears before you.")
+        well_choice = input("Which path would you like to take (1) Left (2) centre (3) right")
+        well_choice = int(well_choice)
+        ratwell = (random.randint(1,100))
+        if  ratwell <= 20 and well_choice == 1:
+            print("You take the left path and a rat approaches you. It is time to fight.")
+            time.sleep(3)
+            fight("Rat", 1, 25, 10, 8, 2, "The rat squeaks aggresively")
+            x += 1
+        elif ratwell > 20 and well_choice == 1:
+            print("You take the left path, it is clear.")
+            time.sleep(2)
+            x += 1
+        elif  ratwell >= 60 and well_choice == 2:
+            print("You take the centre path and a rat approaches you. It is time to fight.")
+            time.sleep(3)
+            fight("Rat", 1, 25, 10, 8, 2, "The rat squeaks aggresively")
+            x += 1
+        elif ratwell < 60 and well_choice == 2:
+            print("You take the centre path, it is clear.")
+            time.sleep(2)
+            x += 1
+        elif  ratwell <= 60 and ratwell >= 20 and well_choice == 3:
+            print("You take the right path and a rat approaches you. It is time to fight.")
+            time.sleep(3)
+            fight("Rat", 1, 25, 10, 8, 2, "The rat squeaks aggresively")
+            x += 1
+        elif ratwell > 60 and ratwell < 20 and well_choice == 3:
+            print("You take the right path, it is clear.")
+            time.sleep(2)
+            x += 1
+        else:
+            ("Invalid input try again")
+    print("You find yourself surrounded in a grimy part of the well. Its practically glowing green.")
+    time.sleep(3)
+    print("You hear heavy footsteps approach you along with heavy dripping.")
+    time.sleep(2)
+    print("You turn around and see a giant mutated rat approaching you. As it lunges at you you realise it is time to fight.")
+    time.sleep(4)
+    fight("Mutated Rat", 2, 48, 20, 6, 3, "Acid is dripping from its fangs")
+    print("You have defeated the mutated rat and around its neck you notice a key. It seems this will be how you enter the castle and take down the king.")
+    time.sleep(4)
+    well_check = 1
+    well_trigger = 0
+    key = 1
     town()
 
-def well():
-    print("There's nothing here.")
-    town()
+def castle_gates():
+    print("Whilst walking towards the castle gates, you encounter a big intimidating wall.")
+    time.sleep(2)
+    global atkbuff
+    global defbuff
+    global healbuff
+    global secret
+    gate = 1
+    while gate == 1:
+        if key != 1:
+            print("There's nothing to do here right now. You decide to return to town")
+            time.sleep(2)
+            gate = 0
+            town()
+        elif key == 1:
+            gate_choice = input("(1) Use the key to unlock the gates. (2) Return to the town") 
+            gate_choice = int(gate_choice)
+        if gate_choice == 1:
+            print("You enter the castle gates to find an angry knight rushing towards you.")#haha comment
+            time.sleep(2)
+            print("You have some guts coming here!")
+            time.sleep(1)
+            fight("Knight", 2, 50, 10, 6, 2,"The knight raises his shield")
+            print("The Knight has been defeated.")
+            time.sleep(1)
+            print("Before you can catch your breath another knight angrily rushes towards you.")
+            time.sleep(3)
+            print("I WILL AVENGE MY COMRADE!")
+            time.sleep(1)
+            fight("Knight", 2, 50, 10, 6, 2,"The knight raises his shield")
+            print("After two tough fights, the captain slowly walks towards you in anger.")
+            time.sleep(3)
+            print("Do you think a weak peasant like you can defeat me?")
+            time.sleep(2)
+            fight("Captain", 6, 70, 20, 5, 3,"The captain taunts you")
+            print("That seems to be the end of the knights, it is time to head to the throne room and make the king pay.")
+            time.sleep(4)
+            gate = 0
+            throne_room()
+        elif gate_choice == 2:
+                gate = 0
+                town()
+        elif gate_choice == 3 and secret == 1:
+            print("You come across a variety of treasures, these should be helpful. You gain +1 to all your stats")
+            secret = 0
+            atkbuff += 1
+            defbuff += 1
+            healbuff += 1
+            time.sleep(2)
+        else:
+            print("Invalid input, try again.")
+
+def throne_room():
+    final = 1
+    print("You finally enter the throme room, it's massive and nothing like you've seen before.")
+    time.sleep(3)
+    print("At the top of the throne sits the greedy king. He starts shouting at you.")
+    time.sleep(3)
+    print("YOU FOOL! You think you can kill me? IM THE KING!")
+    time.sleep(3)
+    print("... Although you seem valuable to me, why dont we strike some sort of deal?")
+    time.sleep(3)
+    print("JOIN ME, and I'll give you all the riches in the world. You'll never struggle again!")
+    time.sleep(3)
+    while final == 1:
+        throne_choice = input("(1) Reject the kings offer. (2) Accept the kings offer.")
+        throne_choice = int(throne_choice)
+        if throne_choice == 1:
+            print("YOU FOOL. YOU DARE DISOBEY ME. I SHALL CUT YOU DOWN WHERE YOU STAND")
+            final = 0
+            time.sleep(3)
+            fight("King", 8, 90, 20, 4, 4, "The king laughs maniacally")
+            print("If you think this is the end of me you are mistaken. BLOOD HOUND, COME TO ME!!!")
+            time.sleep(4)
+            print("The wall behind the castle explodes and in the dust you see a figure of a dragon appear.")
+            time.sleep(4)
+            print("You shall not survive the combined wrath of me and my dragon")
+            time.sleep(3)
+            fight("King and his Dragon", 9, 110, 999, 3, 2, "A fiery aura comes from the dragons mouth")
+            print("No please don't ikill me I'll make you rich! Please this doesn't have to be the end.")
+            time.sleep(4)
+            print("With a single slash of your blade the king is silenced. Permanently")
+            time.sleep(3)
+            print("It i now up to you to take the crown and help the people. Will you succeed as their ruler, or succumb to greed. It is now your path to walk")
+            time.sleep(5)
+            print("Thank you for playing!")
+            quit()
+        elif throne_choice == 2:
+            print("THAT'S RIGHT! YOU WOULDN'T DARE DISOBEY THE KING!")
+            time.sleep(3)     
+            print("Just mere days after you accepted the kings offer the world got much worse. Whilst the king was filling your pockets with gold and silver, the poor were struggling to survive.") 
+            time.sleep(5)   
+            print("The king kept sending his knights out to slay the poor and take there food and supplies.")
+            time.sleep(3)
+            print("Thank you for playing!")
+            final = 0
+    
+        else:
+            print("SPEAK UP WHEN YOU ARE TALKING TO ME!")
+
 town()
