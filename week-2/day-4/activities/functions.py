@@ -6,3 +6,6 @@ def coffee_type(fsize, ftype):
 coffee_type("Large", "Latte")
 coffee_type("Small", "Espresso")
 
+e = 11
+
+print(f"{e - 10}")

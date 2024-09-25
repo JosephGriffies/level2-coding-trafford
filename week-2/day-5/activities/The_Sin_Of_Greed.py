@@ -9,7 +9,7 @@ critp = 100
 defend = 0
 critd = 100 #above variables are established to prevent errors
 level = 1
-atkbuff = 999
+atkbuff = 0
 defbuff = 0
 healbuff = 0
 maxhp = 30
@@ -21,6 +21,11 @@ well_check = 0
 key = 0
 secret = 1
 start = 0
+mafia = 0
+quiz = 0
+quiz_total = 0
+mafia_clear = 0
+street_choice = 0
 
 print(Fore.RED + "THE SIN OF GREED")
 time.sleep(2)
@@ -33,7 +38,7 @@ while start == 0:
         print(Fore.WHITE + "Invalid input try again")
 
 def fight(enemy, modifier, health,xp,charge,threat,tell): 
-    print(Fore.WHITE + f"Oh no a {enemy} has appeared")
+    print(Fore.WHITE + f"Oh no the {enemy} has appeared")
     time.sleep(1)
     global player
     turn_count = 1 #A way to track the turn count used for super attack
@@ -51,7 +56,7 @@ def fight(enemy, modifier, health,xp,charge,threat,tell):
     defend = 0
     while player >= 1 and health >= 1: #loops everything below until the code is closed
         if player >= 1 and health >= 1: #checks to see if the player and dragon are alive
-            print(f"It is turn {turn_count}")
+            print(Fore.WHITE + f"It is turn {turn_count}")
             if comeback == 0 and cooldown <=4:
                 move = input("Would you like to attack (1), heal (2), or defend (3)")
             else:
@@ -134,7 +139,7 @@ def fight(enemy, modifier, health,xp,charge,threat,tell):
         if turn_count == 5 or cooldown == 5:
             comeback = 10
         big_attack = turn_count % charge
-        if big_attack == 0:
+        if big_attack == 0 and health >= 1:
             print(Fore.RED + tell)
             time.sleep(2)
     if player >=1 and health <= 0: #Checks if you won the battle
@@ -274,11 +279,13 @@ def town ():
     intown = 1
     global well_trigger
     global well_check
+    global maxhp
+    global player
     while intown == 1:
         if well_trigger != 1 or well_check == 1:
-            town_choice = input(Fore.WHITE + "What would you like to do?(1) Go to the garden, (2) Go to the castle gates, (3)Talk to the civilians, (4)Find an inn to rest at")
+            town_choice = input(Fore.WHITE + "What would you like to do?(1) Go to the garden, (2) Go to the castle gates, (3)Talk to the civilians, (4)Find an inn to rest at (5) Check out the busy street")
         else:
-            town_choice = input(Fore.WHITE + "What would you like to do?(1) Go to the garden, (2) Go to the castle gates, (3)Talk to the civilians, (4)Find an inn to rest at, (5) Explore the suspicious well.")
+            town_choice = input(Fore.WHITE + "What would you like to do?(1) Go to the garden, (2) Go to the castle gates, (3)Talk to the civilians, (4)Find an inn to rest at, (5) Check out the busy street, (6) Explore the suspicious well.")
         town_choice = int(town_choice)
         if town_choice == 1:
             intown = 0
@@ -328,12 +335,18 @@ def town ():
             player = maxhp
             time.sleep(3)
             print(Fore.CYAN + f"Your hp has been restored to {player}")
-        elif town_choice == 5 and well_trigger == 1:
+        elif town_choice == 6 and well_trigger == 1:
             print(Fore.CYAN + "You decide to inspect the well. It seems dark and grimy as though its been unused for years.")
             time.sleep(4)
             print(Fore.CYAN + "You notice a ladder leading to the bottom. Its time to retrieve the castle key.")
             time.sleep(4)
             well()
+        elif town_choice == 5:
+            print(Fore.CYAN + "You decide to visit the busy street")
+            time.sleep(2)
+            busy_street()
+        else:
+            print(Fore.CYAN + "Invalid input try again")
 
 def well():
     print(Fore.CYAN + "You reach the bottom of the ladder and find before you are 3 branching paths.")
@@ -381,7 +394,7 @@ def well():
             elif difficulty == 2: 
                 fight("Rat", 2, 40, 10, 6, 3, "The rat squeaks aggresively")
             x += 1
-        elif ratwell > 60 and ratwell < 20 and well_choice == 3:
+        elif well_choice == 3 and ratwell > 60 or ratwell < 20:
             print(Fore.CYAN + "You take the right path, it is clear.")
             time.sleep(2)
             x += 1
@@ -393,7 +406,7 @@ def well():
     time.sleep(2)
     print(Fore.CYAN + "You turn around and see a giant mutated rat approaching you. As it lunges at you you realise it is time to fight.")
     time.sleep(4)
-    fight("Mutated Rat", 2, 48, 20, 6, 3, "Acid is dripping from its fangs")
+    fight("Mutated Rat", 3, 48, 20, 6, 3, "Acid is dripping from its fangs")
     print(Fore.CYAN + "You have defeated the mutated rat and around its neck you notice a key. It seems this will be how you enter the castle and take down the king.")
     time.sleep(4)
     well_check = 1
@@ -417,7 +430,7 @@ def castle_gates():
             gate = 0
             town()
         elif key == 1:
-            gate_choice = input(Fore.WHITE + "(1) Use the key to unlock the gates. (2) Return to the town") 
+            gate_choice = input(Fore.WHITE + "(1) Use the key to unlock the gates(WARNING - You will not be able to return). (2) Return to the town") 
             gate_choice = int(gate_choice)
         if gate_choice == 1:
             print(Fore.CYAN + "You enter the castle gates to find an angry knight rushing towards you.")#haha comment
@@ -490,7 +503,7 @@ def throne_room():
                 fight("King", 9, 120, 20, 4, 4, "The king laughs maniacally")
             print(Fore.RED + "If you think this is the end of me you are mistaken. BLOOD HOUND, COME TO ME!!!")
             time.sleep(5)
-            print(Fore.RED + "The wall behind the castle explodes and in the dust you see a figure of a dragon appear.")
+            print(Fore.CYAN + "The wall behind the castle explodes and in the dust you see a figure of a dragon appear.")
             time.sleep(5)
             print(Fore.RED + "You shall not survive the combined wrath of me and my dragon")
             time.sleep(4)
@@ -521,5 +534,331 @@ def throne_room():
         else:
             print(Fore.RED + "SPEAK UP WHEN YOU ARE TALKING TO ME!")
             time.sleep(1)
+
+def busy_street():
+    print(Fore.CYAN + "The street you walk down was a hectic old street. People shouting at every corner and the smell is rotten.")
+    time.sleep(4)
+    street = 1
+    global atkbuff
+    global defbuff
+    global healbuff
+    global mafia
+    global difficulty
+    global quiz_total
+    global quiz
+    global mafia_clear
+    while street == 1:
+        if mafia == 0 or mafia_clear == 1:
+            street_choice = input(Fore.WHITE + "What would you like to do? (1) Talk to people, (2) Check out the nearby performances, (3) Find some entertainment (4) Return to the town centre")
+            street_choice = int(street_choice)
+        elif mafia == 1 and mafia_clear == 0:
+            street_choice = input(Fore.WHITE + "What would you like to do? (1) Talk to people, (2) Check out the nearby performances, (3) Find some entertainment, (4) Return to the town centre (5) Take down the mafia")
+            street_choice = int(street_choice)
+        if street_choice == 1:
+            talkstreet = 1
+            if mafia == 0:
+                print(Fore.CYAN + "You find a person sitting on a bench and decide to strike up a conversation. You notice someone else standing behind to them, perhaps a family member")
+                time.sleep (5)
+                print(Fore.YELLOW + "Oh hello there how can I help you")
+                time.sleep(3)
+            elif mafia == 1:
+                print(Fore.CYAN + "The person you helped earlier seems to recognise you.")
+                time.sleep(4)
+                print(Fore.YELLOW + "Thank you for helping me earlier is there anything I can do for you?")
+                time.sleep(4)
+            while talkstreet == 1:
+                if mafia == 0:
+                    time.sleep (3)
+                    street_person = input(Fore.WHITE + "(1) What do you think of the king? (2) What is there to do here? (3) What is the entertainment here like? (4) I'll be seeing you. (5) Who is that standing behind you?")
+                    street_person = int(street_person)
+                elif mafia == 1: 
+                    time.sleep(4)
+                    street_person = input(Fore.WHITE + "(1) What do you think of the king? (2) What is there to do here? (3) What is the entertainment here like? (4) I'll be seeing you.")
+                    street_person = int(street_person)
+                if street_person == 1:
+                    print(Fore.YELLOW + "The king... people would kill you for just mentioning his name around here. Not many people like him, especially in these areas.")
+                    time.sleep(5)
+                    print(Fore.YELLOW + "Is there anything else you need?")
+                    time.sleep (2)
+                elif street_person == 2:
+                    print(Fore.YELLOW + "Oh so you're not from around here are ya?")
+                    time.sleep(3)
+                    print(Fore.YELLOW + "Street performances are quite common in the town, you could check those out. If ya don't fancy that then I'm sure theres some entertainment to be found.")
+                    time.sleep(6)
+                    print(Fore.YELLOW + "Is there anything else you need?")
+                    time.sleep (2)
+                elif street_person == 3:
+                    print(Fore.YELLOW + "I heard that someone is asking people weird questions about lillies. I've never seen anything called a lilly around here. It must just not grow in this area")
+                    time.sleep(7)
+                    print(Fore.YELLOW + "Anyway, other than that entertainment is quite dull, they perfom silly jokes, dancing and all sorts.")
+                    time.sleep(3)
+                    print(Fore.YELLOW + "Is there anything else you need?")
+                    time.sleep (2)
+                elif street_person == 4:
+                    print(Fore.YELLOW + "Have a wonderful day")
+                    time.sleep(2)
+                    talkstreet = 0
+                elif street_person == 5 and mafia == 0:
+                    print(Fore.YELLOW + "Oh what do you mean their is no one standing behind m- AHHHH THIEF!")
+                    time.sleep(3)
+                    print(Fore.CYAN + "Before you know it the thief runs off with the persons bag, you decide to give chase")
+                    time.sleep(5)
+                    print(Fore.CYAN + "You eventually corner the thief and decide to fight him.")
+                    time.sleep (4)
+                    print (Fore.RED + "Don't think I'll back down so easily, I need this!")
+                    time.sleep(3)
+                    if difficulty == 1:
+                        fight("Thief", 1, 40, 10, 2, 3, "The thief sharpens his knife")
+                    elif difficulty == 2:
+                        fight("Thief", 2, 50, 10, 2, 5, "The thief sharpens his knife")
+                    print(Fore.RED + "AH don't kill me please you can have the bag back I was doing this because THEY told me to")
+                    time.sleep(5)
+                    print(Fore.CYAN + "After a conversation you discover that the they in question is the mafia. You also found out where they operate.")
+                    time.sleep(5)
+                    print(Fore.CYAN + "It seems it is time to take on the mafia, but first you should return the persons bag")
+                    time.sleep(4)
+                    print(Fore.YELLOW + "OH THANK YOU SO MUCH! I am so glad you helped me, it means a lot.")
+                    mafia += 1
+                else:
+                    print(Fore.YELLOW + "Could you repeat that")
+                    time.sleep(1)
+        elif street_choice == 2:
+            print(Fore.CYAN + "There appears to be some sort of comedy show")
+            time.sleep (2)
+            joke = random.randint(1,6)
+            if joke == 1:
+                print(Fore.YELLOW + "Why did the horse cross the road?")
+                time.sleep(3)
+                print(Fore.YELLOW + "BECAUSE IT HEARD SOMEONE SHOUT HAY!")
+                time.sleep(4)
+                print(Fore.CYAN + "After that Joke you realise this is probably not a comedy show but a form of torture.")
+                time.sleep(5)
+            elif joke == 2:
+                print(Fore.YELLOW + "What do you call a group of detective crows?")
+                time.sleep(3)
+                print(Fore.YELLOW + "A MURDER INVESTIGATION")
+                time.sleep(3)
+                print(Fore.CYAN + "After that Joke you realise this is probably not a comedy show but a form of torture.")
+                time.sleep(5)
+            elif joke == 3:
+                print(Fore.YELLOW + "What do you call an angry carrot?")
+                time.sleep(3)
+                print(Fore.YELLOW + "A STEAMED VEGGIE!")
+                time.sleep(3)
+                print(Fore.CYAN + "After that Joke you realise this is probably not a comedy show but a form of torture.")
+                time.sleep(5)
+            elif joke == 4:
+                print(Fore.YELLOW + "Why shouldn't you write with a broken pen?")
+                time.sleep(3)
+                print(Fore.YELLOW + "BECAUSE IT'S POINTLESS!")
+                time.sleep(2)
+                print(Fore.CYAN + "After that Joke you realise this is probably not a comedy show but a form of torture.")
+                time.sleep(5)
+            elif joke == 5:
+                print(Fore.YELLOW + "Why did the hare sit on the throne?")
+                time.sleep(3)
+                print(Fore.YELLOW + "BECAUSE ITS THE HARE TO THE THRONE")
+                time.sleep(3)
+                print(Fore.CYAN + "After that Joke you realise this is probably not a comedy show but a form of torture.")
+                time.sleep(5)
+            elif joke == 6:
+                print(Fore.YELLOW + "Why couldn't the sailor learn the alphabet?")
+                time.sleep(3)
+                print(Fore.YELLOW + "BECAUSE HE ALWAYS GOT LOST AT C!")
+                time.sleep(2)
+                print(Fore.CYAN + "After that Joke you realise this is probably not a comedy show but a form of torture.")
+                time.sleep(5)
+        if street_choice == 3:
+            print(Fore.CYAN + "You see a street performer who is going around asking people questions")
+            time.sleep(4)
+            if quiz == 1:
+                print(Fore.YELLOW + "I'm sorry you've already been on the show and you only get one try at this sort of thing")
+                time.sleep(4)
+            elif quiz == 0:
+                print(Fore.YELLOW + "Step right up, Step right up and try your best at our wonderful quiz")
+                time.sleep(3)
+                print(Fore.YELLOW + "If you my good fellow answer all 4 questions correctly you get a prize!")
+                time.sleep(4)
+                quiz_choice = input(Fore.YELLOW + "Which type of flower does not grow in the garden (1) Rose (2) Lily (3) Cosmos")
+                quiz_choice = int(quiz_choice)
+                if quiz_choice == 2:
+                    print(Fore.YELLOW + "CORRECT! On to the next question")
+                    time.sleep(2)
+                    quiz_total += 1
+                else:
+                    print(Fore.YELLOW + "Unlucky guess my friend, you are wrong! But you can continue playing just don't expect a prize.")
+                    time.sleep(5)
+                quiz_choice = input(Fore.YELLOW + "Who was the first enemy you encountered? (1) A knight, (2) A rat, (3) A thief")
+                quiz_choice = int(quiz_choice)
+                if quiz_choice == 1:
+                    print(Fore.YELLOW + "Congratulations you got it correct!")
+                    time.sleep(2)
+                    quiz_total+= 1
+                else:
+                    print(Fore.YELLOW + "Unlucky guess my friend, you are wrong! But you can continue playing just don't expect a prize.")
+                    time.sleep(5)
+                quiz_choice = input("Third Question! What does the inn do (1) Provide stat buffs (2) Heal your hp (3) Nothing")
+                quiz_choice = int(quiz_choice)
+                if quiz_choice == 2:
+                    print(Fore.YELLOW + "CORRECT! Now that leaves only one more question")
+                    time.sleep(3)
+                    quiz_total+= 1
+                else:
+                    print(Fore.YELLOW + "Unlucky guess my friend, you are wrong! But you can continue playing just don't expect a prize.")
+                    time.sleep(5)
+                quiz_choice = input("Final Question! What enemies can be found in the well (1) Zombies (2) Bats (3) Rats")
+                quiz_choice = int(quiz_choice)
+                if quiz_choice == 3:
+                    print(Fore.YELLOW + "CORRECT AGAIN")
+                    time.sleep(2)
+                    quiz_total+= 1
+                else:
+                    print(Fore.YELLOW + "Unlucky guess my friend, you are wrong!")
+                    time.sleep(3)
+                print(Fore.YELLOW + "Now lets tally up the score ")
+                time.sleep(2)
+                print(Fore.YELLOW + f"You scored {quiz_total} out of 4!")
+                if quiz_total == 4:
+                    print(Fore.YELLOW + "You managed to get them all correct, congratulations!")
+                    time.sleep(3)
+                    print(Fore.YELLOW + "Now heres your prize!")
+                    atkbuff += 1
+                    defbuff += 1
+                    healbuff += 1
+                    time.sleep(2)
+                    print(Fore.CYAN + "You gained +1 to all stats")
+                    time.sleep(2)
+                    quiz += 1
+                elif quiz_total == 0:
+                    print(Fore.YELLOW + "WOW you must not be from around here to do that bad. Well you've ruined my show. There's no suspense if the person knows nothing")
+                    time.sleep(6)
+                    print(Fore.CYAN + "The man pulls out a knife")
+                    time.sleep(2)
+                    print(Fore.RED + "NEW GAME SHOW IDEA, DIE OR LIVE!")
+                    time.sleep(3)
+                    if difficulty == 1:
+                        fight("Game Master", 1, 100, 0, 5, 8, "LETS SPIN THE WHEEL")
+                    elif difficulty == 2:
+                        fight("Game Master", 3, 170, 0, 5, 8, "LETS SPIN THE WHEEL")
+                    print(Fore.RED + "Now that was a good show")
+                    time.sleep(2)
+                    print(Fore.YELLOW + "Now leave, you've done your job and I've done mine.")
+                    time.sleep(4)
+                    quiz += 1
+                else:
+                    print(Fore.YELLOW + "Unlucky! You failed.")
+                    quiz += 1
+                    time.sleep(3)
+        elif street_choice == 4:
+            print(Fore.CYAN + "You decide to go back to the town centre")
+            time.sleep(3)
+            street = 0
+            town()
+        elif street_choice == 5 and mafia == 1 and mafia_clear == 0:
+            print(Fore.CYAN + "It is time to take on the mafia")
+            time.sleep(2)
+            print(Fore.CYAN + "You found the entrance that the thief told you about and decide to go in.")
+            time.sleep(5)
+            street = 0
+            mafia_base()
+        else:
+            print(Fore.CYAN + "Invalid input try again")
+
+def mafia_base():
+    global maxhp
+    global critrate
+    global difficulty
+    global mafia_clear
+    print(Fore.CYAN + "Its the mafias base. Before you stands a guard and a closed door")
+    time.sleep(3)
+    print(Fore.RED + "Hey you, you don't look like one of us. Well if you think you are then whats the first pass code")
+    time.sleep(4)
+    print(Fore.RED + "Since you seem so aloof I'll give you a hint, The answer is the same as your maxhp")
+    mafia_choice = input(Fore.WHITE + f"Is it (1) {maxhp - 10}, (2) {maxhp} or (3) {maxhp -20}")
+    mafia_choice = int(mafia_choice)
+    if mafia_choice == 2:
+        print(Fore.RED + "hmm, go on to the next room")
+        time.sleep(2)
+    else:
+        print(Fore.RED + "HAHA I KNEW YOU WERE A FAKE, PREPARE TO DIE")
+        time.sleep(3)
+        if difficulty == 1:
+            fight("Mafia Member", 3, 40, 10, 6, 2, "The Mafia Member loads their gun.")
+        elif difficulty == 2:
+            fight("Mafia Member", 4, 50, 10, 5, 3, "The Mafia Member loads their gun.")
+        print(Fore.CYAN + "You look through his pockets and find the key, time to enter the next room")
+        time.sleep(4)
+    print(Fore.CYAN + "You find yourself in another room much like the last with a guard and a door")
+    time.sleep(5)
+    print(Fore.RED + "Passcode. Oh right a hint. What is the maximum damage you can deal at level 1")
+    mafia_choice = input(Fore.WHITE + f"Is it (1) 20, (2) 24 or (3) 16")
+    mafia_choice = int(mafia_choice)
+    if mafia_choice == 1:
+        print(Fore.RED + "hmm, go on to the next room")
+        time.sleep(2)
+    else:
+        print(Fore.RED + "HAHA I KNEW YOU WERE A FAKE, PREPARE TO DIE")
+        time.sleep(3)
+        if difficulty == 1:
+            fight("Mafia Member", 3, 40, 10, 6, 2, "The Mafia Member loads their gun.")
+        elif difficulty == 2:
+            fight("Mafia Member", 4, 50, 10, 5, 3, "The Mafia Member loads their gun.")
+        print(Fore.CYAN + "You look through his pockets and find the key, time to enter the next room")
+        time.sleep(4)
+    print(Fore.CYAN + "You find yourself in another room much like the last with a guard and a door")
+    time.sleep(5)
+    print(Fore.RED + "Well you know the drill whats the next password.")
+    time.sleep(3)
+    print(Fore.RED + "Huh? Oh right a hint. I guess I don't know the drill. Whats the bosses favourite colour")
+    mafia_choice = input(Fore.WHITE + f"Is it (1) Magenta, (2) White or (3) Green")
+    mafia_choice = int(mafia_choice)
+    if mafia_choice == 1:
+        print(Fore.RED + "hmm, go on to the next room")
+        time.sleep(2)
+    else:
+        print(Fore.RED + "HAHA I KNEW YOU WERE A FAKE, PREPARE TO DIE")
+        time.sleep(3)
+        if difficulty == 1:
+            fight("Mafia Member", 3, 40, 10, 6, 2, "The Mafia Member loads their gun.")
+        elif difficulty == 2:
+            fight("Mafia Member", 4, 50, 10, 5, 3, "The Mafia Member loads their gun.")
+        print(Fore.CYAN + "You look through his pockets and find the key, time to enter the next room")
+        time.sleep(4)
+    print(Fore.CYAN + "You find yourself in another room much like the last with a guard and a door")
+    time.sleep(5)
+    print(Fore.RED + "What is the password. I'm not in the mood to give hints.")
+    time.sleep(3)
+    mafia_choice = input(Fore.WHITE + f"Is it (1) Sorry, (2) I don't know or (3) Can I have a hint please")
+    mafia_choice = int(mafia_choice)
+    if mafia_choice == 2:
+        print(Fore.RED + "hmm, go on to the next room")
+        time.sleep(2)
+    else:
+        print(Fore.RED + "HAHA I KNEW YOU WERE A FAKE, PREPARE TO DIE")
+        time.sleep(3)
+        if difficulty == 1:
+            fight("Mafia Member", 3, 40, 10, 6, 2, "The Mafia Member loads their gun.")
+        elif difficulty == 2:
+            fight("Mafia Member", 4, 50, 10, 5, 3, "The Mafia Member loads their gun.")
+        print(Fore.CYAN + "You look through his pockets and find the key, time to enter the next room")
+        time.sleep(4)
+    print(Fore.CYAN + "You find yourself in another room covered in riches and at the end of the room you see a man, likely the mafia boss.")
+    time.sleep(6)
+    print(Fore.MAGENTA + "Ah I see you have found my lair whoever you are.")
+    time.sleep(3)
+    print(Fore.MAGENTA + "No one who enters here does so for a nice chat, so lets get this done with")
+    time.sleep (5)
+    if difficulty == 1:
+        fight("Mafia Boss", 5, 60, 20, 5, 4, "The Mafia boss lights a cigar")
+    elif difficulty == 2:
+        fight("Mafia Boss", 6, 80, 20, 5, 5, "The Mafia boss lights a cigar")
+    print(Fore.MAGENTA + "So this is how the mafia ends. How pathetic")
+    time.sleep(4)
+    print(Fore.CYAN + "And thus the mafia has ended. You notice a knife on the man, it appears sharper than yours so you decide to take it.")
+    time.sleep(6)
+    print(Fore.CYAN + "Your crit rate increased by 6%")
+    critrate += 6
+    mafia_clear += 1
+    busy_street()
 
 town()
